@@ -249,11 +249,87 @@ function fillBoard() {
 	setValidations();
 }
 
+//valida si hay dulces que borrar
 
+function setValidations() {
+	columnValidation();
+	rowValidation();
+	// Si hay dulces que borrar
+	if ($('img.delete').length !== 0) {
+		deletesCandyAnimation();
+	}
+}
 
+//UI/UX mover dulces 
+function addCandyEvents() {
+	$('img').draggable({
+		containment: '.panel-tablero',
+		droppable: 'img',
+		revert: true,
+		revertDuration: 500,
+		grid: [100, 100],
+		zIndex: 10,
+		drag: constrainCandyMovement
+	});
+	$('img').droppable({
+		drop: swapCandy
+	});
+	enableCandyEvents();
+}
 
+function disableCandyEvents() {
+	$('img').draggable('disable');
+	$('img').droppable('disable');
+}
 
+function enableCandyEvents() {
+	$('img').draggable('enable');
+	$('img').droppable('enable');
+}
 
+//funcion caramelo solido al mover
+
+function constrainCandyMovement(event, candyDrag) {
+	candyDrag.position.top = Math.min(100, candyDrag.position.top);
+	candyDrag.position.bottom = Math.min(100, candyDrag.position.bottom);
+	candyDrag.position.left = Math.min(100, candyDrag.position.left);
+	candyDrag.position.right = Math.min(100, candyDrag.position.right);
+}
+
+//reemplazar caramelos anteriores
+
+function swapCandy(event, candyDrag) {
+	var candyDrag = $(candyDrag.draggable);
+	var dragSrc = candyDrag.attr('src');
+	var candyDrop = $(this);
+	var dropSrc = candyDrop.attr('src');
+	candyDrag.attr('src', dropSrc);
+	candyDrop.attr('src', dragSrc);
+
+	setTimeout(function () {
+		checkBoard();
+		if ($('img.delete').length === 0) {
+			candyDrag.attr('src', dragSrc);
+			candyDrop.attr('src', dropSrc);
+		} else {
+			updateMoves();
+		}
+	}, 500);
+
+}
+
+function checkBoardPromise(result) {
+	if (result) {
+		checkBoard();
+	}
+}
+
+//validar puntuacion
+function updateMoves() {
+	var actualValue = Number($('#movimientos-text').text());
+	var result = actualValue += 1;
+	$('#movimientos-text').text(result);
+}
 
 
 
