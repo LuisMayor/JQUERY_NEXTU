@@ -353,13 +353,32 @@ function deletesCandyAnimation() {
 		});
 }
 
+//completar los espacios vacios automaticamente
+function showPromiseError(error) {
+	console.log(error);
+}
+
+function deletesCandy() {
+	return new Promise(function (resolve, reject) {
+		if ($('img.delete').remove()) {
+			resolve(true);
+		} else {
+			reject('No se pudo eliminar Candy...');
+		}
+	})
+}
+
+//final del juego
+function endGame() {
+	$('div.panel-tablero, div.time').effect('fold');
+	$('h1.main-titulo').addClass('title-over')
+		.text('Gracias por jugar!');
+	$('div.score, div.moves, div.panel-score').width('100%');
+
+}
 
 
-
-
-
-
-
+// inicia el juego
 function initGame() {
 
 	colorBlink('h1.main-titulo');
@@ -376,6 +395,13 @@ function initGame() {
 	});
 }
 
+// Prepara el juego
 $(function() {
 	initGame();
 });
+
+
+
+
+
+
