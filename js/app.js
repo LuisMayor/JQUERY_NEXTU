@@ -331,6 +331,29 @@ function updateMoves() {
 	$('#movimientos-text').text(result);
 }
 
+//eliminacion automatica de los elementos
+function deletesCandyAnimation() {
+	disableCandyEvents();
+	$('img.delete').effect('pulsate', 400);
+	$('img.delete').animate({
+			opacity: '0'
+		}, {
+			duration: 300
+		})
+		.animate({
+			opacity: '0'
+		}, {
+			duration: 400,
+			complete: function () {
+				deletesCandy()
+					.then(checkBoardPromise)
+					.catch(showPromiseError);
+			},
+			queue: true
+		});
+}
+
+
 
 
 
