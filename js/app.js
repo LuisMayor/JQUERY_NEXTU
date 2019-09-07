@@ -129,7 +129,7 @@ function initGame() {
 /*
 
 
-
+/*
 
 //caramelos a las columnas
 function CandyCrushArrays(arrayType, index) {
